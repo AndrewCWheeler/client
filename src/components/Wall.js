@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Moment from 'react-moment';
-import 'moment-timezone';
+import axios from 'axios'; // npm install axios
+import Moment from 'react-moment'; // npm install react-moment
+import 'moment-timezone'; // npm moment-timezone
 
 import './Wall.css';
 import {
@@ -13,27 +13,26 @@ import {
   FormGroup,
   Label,
   Input,
-} from 'reactstrap';
+} from 'reactstrap'; // npm i reactstrap
+// styling sheet for reactstrap is in the index.css file
 
-const Wall = props => {
-  const { className } = props;
-
+const Wall = () => {
   // *** STATE
-  const [load, setLoad] = useState(0);
+  const [load, setLoad] = useState(0); // to manually trigger useEffect to reload this component
 
   // *** USER(S) STATE
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({}); // user object to create account
   const [logInUser, setLogInUser] = useState({
     username: '',
     password: '',
-  });
+  }); // user object for logging in
   let sessionUserId = '';
   let sessionUsername = localStorage.getItem('username');
-  const [confirm, setConfirm] = useState('');
+  const [confirm, setConfirm] = useState(''); // this is for confirm Password field, separated from the user object, since the db doesn't need it
 
   // *** AUTH STATE
-  const [auth, setAuth] = useState(false);
-  const [disabled, setDisabled] = useState(true);
+  const [auth, setAuth] = useState(false); // to toggle which buttons show
+  const [disabled, setDisabled] = useState(true); // to toggle state of message input box and button
   const [errors, setErrors] = useState({
     password: {
       active: false,
@@ -55,11 +54,11 @@ const Wall = props => {
 
   // *** MESSAGE(S) STATE
   const [message, setMessage] = useState({
-    owner: '',
-    message: '',
-    poster: '',
+    owner: '', // sessionUserId
+    message: '', // string input
+    poster: '', // sessionUsername
   });
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]); // array of all messages from db
 
   // *** MODAL STATE
   const [modal, setModal] = useState(false);
@@ -67,17 +66,18 @@ const Wall = props => {
 
   // *** USE EFFECT
   useEffect(() => {
+    // runs on page load or when "load" state value is changed
     let isMounted = true;
     let authorizedToken = localStorage.getItem('authToken');
     console.log(authorizedToken);
 
     if (authorizedToken !== '') {
-      setDisabled(false);
-      setAuth(true);
+      // i.e., there IS a token
+      setDisabled(false); // enables use of message input box
+      setAuth(true); // // authorizes the user
     }
-
     axios
-      .get('http://127.0.0.1:8000/api/users/')
+      .get('http://127.0.0.1:8000/api/users/') // get an array of all users and compare to username in local storage to retrieve user Id, needed for owner field of message object
       .then(response => {
         let username = localStorage.getItem('username');
         let allUsers = response.data;
@@ -166,6 +166,7 @@ const Wall = props => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
     })
+      .then(res => console.log(res))
       .then(res => res.json())
       .then(res => {
         console.log(res);
@@ -245,7 +246,7 @@ const Wall = props => {
             ...errors,
             login: {
               active: true,
-              credentials: data.non_field_errors[0],
+              credentials: data.non_field_errors,
             },
           });
           setLogInUser({
@@ -398,7 +399,7 @@ const Wall = props => {
       </div>
       {/* #SIGNUP_MODAL */}
       <div>
-        <Modal isOpen={modal} toggle={toggleSignUp} className={className}>
+        <Modal isOpen={modal} toggle={toggleSignUp}>
           <ModalHeader toggle={toggleSignUp}>Sign Up</ModalHeader>
           <ModalBody>
             <FormGroup>
@@ -462,7 +463,7 @@ const Wall = props => {
 
       {/* #LOGIN_MODAL */}
       <div>
-        <Modal isOpen={logInModal} toggle={toggleLogIn} className={className}>
+        <Modal isOpen={logInModal} toggle={toggleLogIn}>
           <ModalHeader toggle={toggleLogIn}>Log In</ModalHeader>
           <ModalBody>
             <FormGroup>
