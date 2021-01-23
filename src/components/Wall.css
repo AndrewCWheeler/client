@@ -1,0 +1,54 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form input {
+  width: 600px;
+}
+
+.wall__header {
+  height: 50px;
+  border-bottom: 1px solid lightgray;
+  display: flex;
+}
+
+.wall__header > h3 {
+  margin: auto;
+}
+
+.wall__body {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+}
+
+.wall__body div {
+  margin: 10px;
+}
+
+.wall__body .column-1 {
+  flex-basis: 20%;
+  border-right: 1px solid lightgray;
+}
+
+.wall__body .column-2 {
+  flex-basis: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.inner {
+  position: relative;
+  max-height: 300px;
+  overflow: scroll;
+}
+
+/* .wall__body .column-2 > input {
+  flex-basis: 100%;
+} */
+
+.wall__body .column-3 {
+  flex-basis: 20%;
+  border-left: 1px solid lightgray;
+}
